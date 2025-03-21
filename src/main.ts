@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { WinstonModule } from 'nest-winston';
 import { loggerConfig } from '@shared/logger.config';
-import * as session from 'express-session';
+import  session from 'express-session';
 
 
 async function bootstrap() {
