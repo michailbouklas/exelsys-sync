@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int       @id @default(autoincrement())
+  externalId            Int?      @map("external_id") // Original ID from external system
+  employeeCode          String?   @unique @map("employee_code")
+  namePrefix            String?   @map("name_prefix")
+  firstName             String    @map("first_name")
+  lastName              String    @map("last_name")
+  initials              String?   @map("initials")
+  email                 String?   @map("email")
+  jobTitle              String?   @map("job_title")
+  gender                String?   @map("gender")
+  birthDate             DateTime? @map("birth_date")
+  status                String?   @map("status")
+  employmentDate        DateTime? @map("employment_date")
+  terminationDate       DateTime? @map("termination_date")
+  terminationReasonCode String?   @map("termination_reason_code")
+
+  // Department related fields
+  departmentCode       String? @map("department_code")
+  department           String? @map("department")
+  departmentLocation   String? @map("department_location")
+  parentDepartmentCode String? @map("parent_department_code")
+  parentDepartmentName String? @map("parent_department_name")
+
+  // Location related fields
+  location     String? @map("location")
+  locationCode String? @map("location_code")
+  locationId   String? @map("location_id")
+
+  // Contact details
+  addressLine1     String? @map("address_line1")
+  addressLine2     String? @map("address_line2")
+  addressLine3     String? @map("address_line3")
+  city             String? @map("city")
+  postCode         String? @map("post_code")
+  districtProvince String? @map("district_province")
+  countryIsoCode   String? @map("country_iso_code")
+  country          String? @map("country")
+  phoneNo          String? @map("phone_no")
+  phoneNo2         String? @map("phone_no2")
+  mobilePhone      String? @map("mobile_phone")
+  workEmail        String? @map("work_email")
+
+  // Identification details
+  socialSecurityNo         String?   @map("social_security_no")
+  identityCardNo           String?   @map("identity_card_no")
+  identityCardPlaceOfIssue String?   @map("identity_card_place_of_issue")
+  passportNo               String?   @map("passport_no")
+  passportExpiryDate       DateTime? @map("passport_expiry_date")
+  nationalInsuranceNo      String?   @map("national_insurance_no")
+
+  // Job related fields
+  employeeGradeCode          String?   @map("employee_grade_code")
+  employeeGrade              String?   @map("employee_grade")
+  employeeJobDescriptionCode String?   @map("employee_job_description_code")
+  employeeJobDescription     String?   @map("employee_job_description")
+  employeeContractType       String?   @map("employee_contract_type")
+  employeeContractTypeCode   String?   @map("employee_contract_type_code")
+  contractExpiryDate         DateTime? @map("contract_expiry_date")
+  positionCode               String?   @map("position_code")
+
+  // Manager information
+  employeeManager     String? @map("employee_manager")
+  employeeManagerCode String? @map("employee_manager_code")
+
+  // Financial information
+  payrollNo        String? @map("payroll_no")
+  payrollCompanyNo String? @map("payroll_company_no")
+  bankName         String? @map("bank_name")
+  bankAccountNo    String? @map("bank_account_no")
+  iban             String? @map("iban")
+  swift            String? @map("swift")
+  currencyId       String? @map("currency_id")
+  taxCode          String? @map("tax_code")
+
+  // Other details
+  yearsOfService       Int?      @map("years_of_service")
+  age                  Int?      @map("age")
+  pictureId            String?   @map("picture_id")
+  workPermitType       String?   @map("work_permit_type")
+  workPermitExpiryDate DateTime? @map("work_permit_expiry_date")
+  workPermitReference  String?   @map("work_permit_reference")
+
+  // Timestamps
+  createdDate DateTime @default(now()) @map("created_date")
+  updatedDate DateTime @updatedAt @map("updated_date")
+  createdBy   String?  @map("created_by")
+  updatedBy   String?  @map("updated_by")
+
+  @@index([email])
+  @@index([employeeCode])
+}
