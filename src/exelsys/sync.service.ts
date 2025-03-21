@@ -15,8 +15,12 @@ export class SyncService extends BasePrismaService {
 
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async cronSync() {
+        const startTime = new Date();
         await this.startSync();
-        this.logger.log('Syncing finished');
+        const endTime = new Date();
+        const duration = endTime.getTime() - startTime.getTime();
+        const durationInMinutes = duration / (1000 * 60);
+        this.logger.log('Syncing finished. Took ' + durationInMinutes + ' minutes');
     }
 
     async fetchPage(page: number) {
