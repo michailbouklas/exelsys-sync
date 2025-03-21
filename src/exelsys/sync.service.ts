@@ -16,6 +16,7 @@ export class SyncService extends BasePrismaService {
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async cronSync() {
         await this.startSync();
+        this.logger.log('Syncing finished');
     }
 
     async fetchPage(page: number) {
