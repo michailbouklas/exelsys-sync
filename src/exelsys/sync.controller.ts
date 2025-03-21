@@ -3,12 +3,12 @@ import {SyncService} from "./sync.service";
 
 @Controller('sync')
 export class SyncController {
-    onApplicationBootstrap() {
+/*    onApplicationBootstrap() {
         setTimeout(async () => {
             const s = new SyncController();
             await s.startSync();
         }, 1000)
-    }
+    }*/
     @Post()
     async startSync() {
         return new SyncService().startSync();
