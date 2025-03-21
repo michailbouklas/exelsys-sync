@@ -251,8 +251,12 @@ export function mapExelsysEmployeeToPrismaUser(employee: IExelsysEmployeeDetaile
   // Convert date strings to Date objects where applicable
   const parseDate = (dateStr?: string): Date | undefined => {
     if (!dateStr) return undefined;
-    const date = new Date(dateStr);
-    return isNaN(date.getTime()) ? undefined : date;
+    try {
+      const date = new Date(dateStr);
+      return isNaN(date.getTime()) ? undefined : date;
+    } catch (e) {
+      return undefined;
+    }
   };
 
   // Convert string numbers to integers
@@ -278,78 +282,26 @@ export function mapExelsysEmployeeToPrismaUser(employee: IExelsysEmployeeDetaile
     birthDate: parseDate(employee.BirthDate),
     status: employee.Status,
     employmentDate: parseDate(employee.EmploymentDate),
-    terminationDate: employee.TerminationDate?._xsi_nil ? undefined : parseDate(employee.TerminationDate as string),
+    terminationDate: typeof employee.TerminationDate === 'object' ? undefined : parseDate(employee.TerminationDate as any),
     terminationReasonCode: employee.TerminationReasonCode,
 
-    // Department related fields
     departmentCode: employee.DepartmentCode,
     department: employee.Department,
     departmentLocation: employee.DepartmentLocation,
-    parentDepartmentCode: employee.ParentDepartmentCode,
-    parentDepartmentName: employee.ParentDepartmentName,
 
-    // Location related fields
-    location: employee.Location,
-    locationCode: employee.LocationCode,
-    locationId: employee.LocationID,
-
-    // Contact details
-    addressLine1: mainAddress.AddressLine1,
-    addressLine2: mainAddress.AddressLine2,
-    addressLine3: mainAddress.AddressLine3,
-    city: employee.City || mainAddress.City,
-    postCode: employee.PostCode || mainAddress.PostCode,
-    districtProvince: employee.DistrictProvince || mainAddress.DistrictProvince,
-    countryIsoCode: employee.CountryISOCode || mainAddress.CountryISOCode,
-    country: employee.Country || mainAddress.Country,
     phoneNo: employee.PhoneNo || mainAddress.PhoneNo,
     phoneNo2: employee.PhoneNo2 || mainAddress.PhoneNo2,
     mobilePhone: employee.MobilePhone || mainAddress.MobilePhone,
-    workEmail: employee.WorkEMail,
 
-    // Identification details
-    socialSecurityNo: employee.SocialSecurityNo,
     identityCardNo: employee.IdentityCardNo,
-    identityCardPlaceOfIssue: employee.IdentityCardPlaceofIssue,
-    passportNo: employee.PassportNo,
-    passportExpiryDate: employee.PassportExpiryDate?._xsi_nil ? undefined : parseDate(employee.PassportExpiryDate as string),
-    nationalInsuranceNo: employee.NationalInsuranceNo,
-
-    // Job related fields
-    employeeGradeCode: employee.EmployeeGradeCode,
     employeeGrade: employee.EmployeeGrade,
-    employeeJobDescriptionCode: employee.EmployeeJobDescriptionCode,
-    employeeJobDescription: employee.EmployeeJobDescription,
-    employeeContractType: employee.EmployeeContractType,
-    employeeContractTypeCode: employee.EmployeeContractTypeCode,
-    contractExpiryDate: parseDate(employee.ContractExpiryDate),
-    positionCode: employee.PositionCode,
-
-    // Manager information
     employeeManager: employee.EmployeeManager,
     employeeManagerCode: employee.EmployeeManagerCode,
 
-    // Financial information
-    payrollNo: employee.PayrollNo,
-    payrollCompanyNo: employee.PayrollCompanyNo,
-    bankName: employee.BankName,
-    bankAccountNo: employee.BankAccountNo,
-    iban: employee.IBAN,
-    swift: employee.SWIFT,
-    currencyId: employee.CurrencyID,
-    taxCode: employee.TaxCode,
-
-    // Other details
     yearsOfService: parseInteger(employee.YearsOfService),
     age: parseInteger(employee.Age),
     pictureId: employee.PictureID,
-    workPermitType: employee.WorkPermitType,
-    workPermitExpiryDate: employee.WorkPermitExpiryDate?._xsi_nil ? undefined : parseDate(employee.WorkPermitExpiryDate as string),
-    workPermitReference: employee.WorkPermitReference,
 
-    // Timestamps
-    createdDate: parseDate(employee.CreatedDate) || new Date(),
-    updatedDate: parseDate(employee.UpdatedDate) || new Date(),
     createdBy: employee.CreatedBy,
     updatedBy: employee.UpdatedBy
   };

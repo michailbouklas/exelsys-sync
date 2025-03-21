@@ -67,7 +67,7 @@ export interface IExelsysEmployeeDetailedResponse {
   LoginWindows?: string;
   EmployeeGradeCode?: string;
   EmployeeJobDescriptionCode?: string;
-  ID: string;
+  ID: number;
   Department?: string;
   DepartmentCode?: string;
   DepartmentLocation?: string;

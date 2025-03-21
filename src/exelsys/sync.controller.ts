@@ -5,12 +5,9 @@ import {SyncService} from "./sync.service";
 export class SyncController {
     onApplicationBootstrap() {
         setTimeout(async () => {
-                  const res = await fetch(`http://localhost:4507/sync`, {
-                      method: 'POST',
-                  })
-                  const data = await res.json();
-                  // console.log(data);
-        })
+            const s = new SyncController();
+            await s.startSync();
+        }, 1000)
     }
     @Post()
     async startSync() {
